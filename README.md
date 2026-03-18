@@ -23,3 +23,7 @@ samples, guidance on mobile development, and a full API reference.
 
 On validera ça quand tout est réaliser
 
+## References
+
+UI/assets :
+- https://www.youtube.com/watch?v=zzBKwdX6428
