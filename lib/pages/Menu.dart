@@ -97,7 +97,7 @@ class _MenuState extends State<Menu> {
                         padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                         textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
-                      child: const Text("COMMENCER"),
+                      child: const Text("Play"),
                     ),
                   ],
                 ),
