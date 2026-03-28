@@ -115,17 +115,17 @@ class _MenuState extends State<Menu> {
             ),
             child: Column(
               children: [
-                const Icon(Icons.monetization_on, color: Colors.yellow, size: 30),
-                const SizedBox(height: 10),
+                const Icon(Icons.monetization_on_outlined, color: Colors.yellow, size: 40),
+                const SizedBox(height: 5),
                 Text(
                   "${_startingCoins.toInt()}",
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 25,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const Text("COINS", style: TextStyle(color: Colors.white70, fontSize: 10)),
+                const Text("COINS", style: TextStyle(color: Colors.white70, fontSize: 15)),
                 Expanded(
                   child: RotatedBox(
                     quarterTurns: 3,
@@ -133,7 +133,7 @@ class _MenuState extends State<Menu> {
                       value: _startingCoins,
                       min: 50,
                       max: 1000,
-                      divisions: 19, // Par paliers de 50
+                      divisions: 19,
                       activeColor: Colors.yellow[700],
                       inactiveColor: Colors.white24,
                       onChanged: (double value) {
@@ -144,7 +144,7 @@ class _MenuState extends State<Menu> {
                     ),
                   ),
                 ),
-                const Text("MIN: 50", style: TextStyle(color: Colors.white38, fontSize: 10)),
+                const Text("MIN: 50", style: TextStyle(color: Colors.white38, fontSize: 15)),
               ],
             ),
           ),
