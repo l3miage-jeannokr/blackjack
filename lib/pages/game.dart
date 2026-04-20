@@ -10,25 +10,40 @@ class Game {
   void turn(){
     for(Player player in players) {
       hit(player);
-
+      decision(player);
     }
     hit(dealer);
-    results();
   }
 
-  void decision(){
-
+  void decision(Player player){
+    if (player.score < 21) {
+      // open popup for decision pass or hit
+    }
   }
 
   void bet(){
-
+    // TODO: it 2
   }
 
   Card hit(Player player){
     return deck.cards[0];
   }
 
-  void results() {
-
+  // check if on of the players has won and display winning screen
+  bool results() {
+    return false;
   }
+  // manage the game
+  void main(){
+    bool gameStatus = false;
+    players = [Player("Player1", 100, false)];
+    deck = Deck52();
+    deck.shuffle();
+    while (!gameStatus) {
+      //bet();
+      turn();
+      gameStatus = results();
+    }
+  }
+
 }

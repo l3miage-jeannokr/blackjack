@@ -12,4 +12,8 @@ class Deck52 {
       }
     }
   }
+
+  void shuffle() {
+    cards.shuffle();
+  }
 }
