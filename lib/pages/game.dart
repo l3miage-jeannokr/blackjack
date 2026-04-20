@@ -34,6 +34,11 @@ class _GameState extends State<Game> {
     deck = Deck52();
     isGameInProgress = false;
     showDealerHiddenCard = false;
+    
+    if (currentBet > player.coins) {
+      currentBet = player.coins < 10 ? 10 : (player.coins ~/ 10) * 10;
+    }
+    if (currentBet < 10) currentBet = 10;
   }
 
   void _drawCard(Player p) {
@@ -59,7 +64,7 @@ class _GameState extends State<Game> {
       dealer.hand = [];
       player.bet = currentBet;
       player.coins -= currentBet;
-      joueurService.savePlayer(player); // On sauvegarde la mise déduite immédiatement
+      joueurService.savePlayer(player);
       showDealerHiddenCard = false;
       isGameInProgress = true;
 
@@ -69,7 +74,7 @@ class _GameState extends State<Game> {
       _drawCard(dealer);
 
       if (player.score == 21) {
-        _stand(); // Vérification immédiate du Blackjack
+        _stand();
       }
     });
   }
@@ -82,23 +87,6 @@ class _GameState extends State<Game> {
         showDealerHiddenCard = true;
         joueurService.savePlayer(player);
         _showResultDialog("Bust ! Vous avez dépassé 21.", isWin: false);
-      }
-    });
-  }
-
-  void _doubleDown() {
-    if (player.coins < player.bet) return;
-    setState(() {
-      player.coins -= player.bet;
-      player.bet *= 2;
-      joueurService.savePlayer(player);
-      _drawCard(player);
-      if (player.score > 21) {
-        isGameInProgress = false;
-        showDealerHiddenCard = true;
-        _showResultDialog("Bust ! Vous avez dépassé 21.", isWin: false);
-      } else {
-        _stand();
       }
     });
   }
@@ -197,23 +185,30 @@ class _GameState extends State<Game> {
     return Scaffold(
       backgroundColor: const Color(0xFF0F522E),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        toolbarHeight: 40,
+        backgroundColor: Colors.black26,
         elevation: 0,
         title: Text("Banque: ${player.coins} €",
-            style: const TextStyle(color: Colors.yellowAccent)),
+            style: const TextStyle(color: Colors.yellowAccent, fontSize: 16)),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _buildDealerSection(),
-          const Text("VS",
-              style: TextStyle(
-                  color: Colors.white24,
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold)),
-          _buildPlayerSection(player),
-          _buildActionPanel(),
-        ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 5),
+                    _buildDealerSection(),
+                    const Divider(color: Colors.white10, height: 20),
+                    _buildPlayerSection(player),
+                  ],
+                ),
+              ),
+            ),
+            _buildActionPanel(),
+          ],
+        ),
       ),
     );
   }
@@ -223,12 +218,14 @@ class _GameState extends State<Game> {
       children: [
         Text(dealer.name,
             style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
+                color: Colors.white70,
+                fontSize: 14,
                 fontWeight: FontWeight.bold)),
-        const SizedBox(height: 10),
+        const SizedBox(height: 5),
         Wrap(
-          spacing: 10,
+          spacing: 8,
+          runSpacing: 8,
+          alignment: WrapAlignment.center,
           children: List.generate(dealer.hand.length, (index) {
             if (index == 1 && !showDealerHiddenCard && isGameInProgress) {
               return _buildCardBack();
@@ -236,10 +233,9 @@ class _GameState extends State<Game> {
             return _buildCard(dealer.hand[index]);
           }),
         ),
-        const SizedBox(height: 5),
         Text(
-            "Score: ${showDealerHiddenCard ? dealer.score : '?'}",
-            style: const TextStyle(color: Colors.white70)),
+            "Score: ${showDealerHiddenCard ? dealer.score : (dealer.hand.isNotEmpty ? _calculateScore([dealer.hand[0]]) : 0)}",
+            style: const TextStyle(color: Colors.white54, fontSize: 12)),
       ],
     );
   }
@@ -250,52 +246,50 @@ class _GameState extends State<Game> {
         Text(p.name,
             style: const TextStyle(
                 color: Colors.white,
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: FontWeight.bold)),
-        const SizedBox(height: 10),
+        const SizedBox(height: 5),
         Wrap(
-          spacing: 10,
+          spacing: 8,
+          runSpacing: 8,
+          alignment: WrapAlignment.center,
           children: p.hand.map((card) => _buildCard(card)).toList(),
         ),
-        const SizedBox(height: 5),
         Text("Score: ${p.score} | Mise: ${p.bet} €",
-            style: const TextStyle(color: Colors.white70)),
+            style: const TextStyle(color: Colors.white70, fontSize: 13)),
       ],
     );
   }
 
   Widget _buildActionPanel() {
     return Container(
-      padding: const EdgeInsets.all(20),
-      color: Colors.black26,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      color: Colors.black45,
       child: isGameInProgress
           ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _actionButton("HIT", Colors.blue, _hit),
-                _actionButton("DOUBLE", Colors.purple, _doubleDown),
                 _actionButton("STAND", Colors.orange, _stand),
               ],
             )
-          : Column(
+          : Row(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text("MISE: ", style: TextStyle(color: Colors.white)),
-                    Slider(
-                      value: currentBet.toDouble(),
-                      min: 10,
-                      max: player.coins >= 10 ? player.coins.toDouble() : 10,
-                      divisions: player.coins > 10 ? (player.coins / 10).floor() : 1,
-                      onChanged: (v) => setState(() => currentBet = v.toInt()),
-                    ),
-                    Text("${currentBet}€",
-                        style: const TextStyle(color: Colors.yellowAccent)),
-                  ],
+                const Text("MISE: ", style: TextStyle(color: Colors.white, fontSize: 12)),
+                Expanded(
+                  child: Slider(
+                    value: currentBet.toDouble().clamp(10.0, player.coins >= 10 ? player.coins.toDouble() : 10.0),
+                    min: 10,
+                    max: player.coins >= 10 ? player.coins.toDouble() : 10.0,
+                    divisions: player.coins > 20 ? (player.coins / 10).floor() : 1,
+                    onChanged: (v) => setState(() => currentBet = v.toInt()),
+                  ),
                 ),
+                Text("${currentBet}€",
+                    style: const TextStyle(color: Colors.yellowAccent, fontSize: 14)),
+                const SizedBox(width: 10),
                 _actionButton(
-                    "DISTRIBUER", Colors.yellow[800]!, _startNewRound),
+                    "JOUER", Colors.yellow[800]!, _startNewRound),
               ],
             ),
     );
@@ -303,42 +297,47 @@ class _GameState extends State<Game> {
 
   Widget _buildCard(Card card) {
     return Container(
-      width: 60,
-      height: 90,
+      width: 50,
+      height: 75,
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(5),
           boxShadow: const [
-            BoxShadow(color: Colors.black26, blurRadius: 4, offset: Offset(2, 2))
+            BoxShadow(color: Colors.black45, blurRadius: 2, offset: Offset(1, 1))
           ]),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(_getRankLabel(card.rank),
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: 18)),
-            Icon(_getSuitIcon(card.suit),
-                color: _getSuitColor(card.suit), size: 30),
-          ],
-        ),
+      child: Stack(
+        children: [
+          Positioned(
+            top: 2,
+            left: 2,
+            child: Text(_getRankLabel(card.rank),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                    color: _getSuitColor(card.suit))),
+          ),
+          Center(
+            child: Icon(_getSuitIcon(card.suit),
+                color: _getSuitColor(card.suit), size: 24),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildCardBack() {
     return Container(
-      width: 60,
-      height: 90,
+      width: 50,
+      height: 75,
       decoration: BoxDecoration(
           color: Colors.blue[900],
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.white, width: 2),
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(color: Colors.white24, width: 1.5),
           boxShadow: const [
-            BoxShadow(color: Colors.black26, blurRadius: 4, offset: Offset(2, 2))
+            BoxShadow(color: Colors.black45, blurRadius: 2, offset: Offset(1, 1))
           ]),
       child: const Center(
-          child: Icon(Icons.help_outline, color: Colors.white, size: 30)),
+          child: Icon(Icons.help_outline, color: Colors.white30, size: 20)),
     );
   }
 
@@ -348,9 +347,10 @@ class _GameState extends State<Game> {
       style: ElevatedButton.styleFrom(
         backgroundColor: color,
         foregroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        minimumSize: const Size(80, 40),
       ),
-      child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+      child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
     );
   }
 
