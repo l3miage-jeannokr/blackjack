@@ -1,4 +1,4 @@
-import 'package:blackjack/models/card.dart';
+import 'package:blackjack/Models/card.dart';
 
 class Player {
   String name = '';

@@ -1,6 +1,6 @@
-import 'card.dart';
-import 'suit.dart';
-import 'rank.dart';
+import 'package:blackjack/Models/card.dart';
+import 'package:blackjack/Models/suit.dart';
+import 'package:blackjack/Models/rank.dart';
 
 class Deck52 {
   List<Card> cards = [];

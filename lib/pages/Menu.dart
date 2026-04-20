@@ -14,25 +14,22 @@ class _MenuState extends State<Menu> {
   final JoueurService joueurService = JoueurService();
   final TextEditingController _nameController = TextEditingController();
   
-  // Valeur par défaut pour les jetons au départ
   double _startingCoins = 100.0;
 
   @override
   void initState() {
     super.initState();
-    // On récupère le nom existant au démarrage
     _nameController.text = joueurService.getPlayer()?.name ?? "";
   }
 
   void _sauvegarderEtJouer() {
     if (_nameController.text.isNotEmpty) {
-      // On utilise _startingCoins.toInt() pour le score initial
       joueurService.savePlayer(Player(_nameController.text, _startingCoins.toInt(), false));
-      
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => const Game()),
-      // );
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Game()),
+       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Veuillez entrer un nom")),
