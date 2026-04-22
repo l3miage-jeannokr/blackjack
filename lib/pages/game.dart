@@ -6,6 +6,8 @@ import 'package:blackjack/Models/suit.dart' as suit_model;
 import 'package:blackjack/Models/rank.dart' as rank_model;
 import 'package:blackjack/Services/JoueurService.dart';
 
+import '../Models/PopupMsg.dart';
+
 class Game extends StatefulWidget {
   const Game({super.key});
 
@@ -29,8 +31,8 @@ class _GameState extends State<Game> {
   }
 
   void _initGameData() {
-    player = joueurService.getPlayer() ?? Player("Joueur", 100, false);
-    dealer = Player("Croupier", 0, true);
+    player = joueurService.getPlayer() ?? Player(Popupmsg.playeur.message, 100, false);
+    dealer = Player(Popupmsg.dealer.message, 0, true);
     deck = Deck52();
     isGameInProgress = false;
     showDealerHiddenCard = false;
@@ -52,7 +54,7 @@ class _GameState extends State<Game> {
   void _startNewRound() {
     if (player.coins < currentBet) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Pas assez de jetons !")),
+        SnackBar(content: Text(Popupmsg.necessaryCoins.message)),
       );
       return;
     }
@@ -86,7 +88,7 @@ class _GameState extends State<Game> {
         isGameInProgress = false;
         showDealerHiddenCard = true;
         joueurService.savePlayer(player);
-        _showResultDialog("Bust ! Vous avez dépassé 21.", isWin: false);
+        _showResultDialog(Popupmsg.loose.message, isWin: false);
       }
     });
   }
@@ -114,25 +116,25 @@ class _GameState extends State<Game> {
     bool dealerBJ = _isBlackjack(dealer);
 
     if (player.score > 21) {
-      message = "Bust ! Vous avez perdu.";
+      message = Popupmsg.loose.message;
     } else if (dealer.score > 21) {
-      message = "Le croupier a sauté ! Vous gagnez.";
+      message = Popupmsg.dealerLoose.message;
       player.coins += playerBJ ? (player.bet * 2.5).toInt() : (player.bet * 2);
       isWin = true;
     } else if (playerBJ && !dealerBJ) {
-      message = "BLACKJACK !";
+      message = Popupmsg.blackjack.message;
       player.coins += (player.bet * 2.5).toInt();
       isWin = true;
     } else if (dealerBJ && !playerBJ) {
-      message = "Le croupier a un Blackjack. Perdu.";
+      message = Popupmsg.dealerWinByBJ.message;
     } else if (player.score > dealer.score) {
-      message = "Gagné !";
+      message = Popupmsg.win.message;
       player.coins += player.bet * 2;
       isWin = true;
     } else if (player.score < dealer.score) {
-      message = "Perdu... ${player.score} vs ${dealer.score}";
+      message = "${Popupmsg.looseByScore.message} ${player.score} vs ${dealer.score}";
     } else {
-      message = "Égalité (Push)";
+      message = Popupmsg.push.message;
       player.coins += player.bet;
     }
 
@@ -164,7 +166,7 @@ class _GameState extends State<Game> {
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        title: Text(isWin ? "Félicitations !" : "Résultat"),
+        title: Text(isWin ? Popupmsg.congratulation.message : Popupmsg.resultat.message),
         content: Text(message),
         actions: [
           TextButton(
@@ -173,7 +175,7 @@ class _GameState extends State<Game> {
               _initGameData();
               setState(() {});
             },
-            child: const Text("OK"),
+            child: Text(Popupmsg.good.message),
           ),
         ],
       ),
@@ -188,7 +190,7 @@ class _GameState extends State<Game> {
         toolbarHeight: 40,
         backgroundColor: Colors.black26,
         elevation: 0,
-        title: Text("Banque: ${player.coins} €",
+        title: Text("${Popupmsg.banque.message}${player.coins} ${Popupmsg.euro.message}",
             style: const TextStyle(color: Colors.yellowAccent, fontSize: 16)),
       ),
       body: SafeArea(
@@ -234,7 +236,7 @@ class _GameState extends State<Game> {
           }),
         ),
         Text(
-            "Score: ${showDealerHiddenCard ? dealer.score : (dealer.hand.isNotEmpty ? _calculateScore([dealer.hand[0]]) : 0)}",
+            "${Popupmsg.score.message}${showDealerHiddenCard ? dealer.score : (dealer.hand.isNotEmpty ? _calculateScore([dealer.hand[0]]) : 0)}",
             style: const TextStyle(color: Colors.white54, fontSize: 12)),
       ],
     );
@@ -255,7 +257,7 @@ class _GameState extends State<Game> {
           alignment: WrapAlignment.center,
           children: p.hand.map((card) => _buildCard(card)).toList(),
         ),
-        Text("Score: ${p.score} | Mise: ${p.bet} €",
+        Text("${Popupmsg.score.message}${p.score} | ${Popupmsg.mise.message}${p.bet}${Popupmsg.euro.message}",
             style: const TextStyle(color: Colors.white70, fontSize: 13)),
       ],
     );
@@ -269,13 +271,13 @@ class _GameState extends State<Game> {
           ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _actionButton("HIT", Colors.blue, _hit),
-                _actionButton("STAND", Colors.orange, _stand),
+                _actionButton(Popupmsg.hit.message, Colors.blue, _hit),
+                _actionButton(Popupmsg.stand.message, Colors.orange, _stand),
               ],
             )
           : Row(
               children: [
-                const Text("MISE: ", style: TextStyle(color: Colors.white, fontSize: 12)),
+                Text(Popupmsg.mise.message, style: TextStyle(color: Colors.white, fontSize: 12)),
                 Expanded(
                   child: Slider(
                     value: currentBet.toDouble().clamp(10.0, player.coins >= 10 ? player.coins.toDouble() : 10.0),
@@ -285,11 +287,11 @@ class _GameState extends State<Game> {
                     onChanged: (v) => setState(() => currentBet = v.toInt()),
                   ),
                 ),
-                Text("${currentBet}€",
+                Text("${currentBet} ${Popupmsg.euro.message}",
                     style: const TextStyle(color: Colors.yellowAccent, fontSize: 14)),
                 const SizedBox(width: 10),
                 _actionButton(
-                    "JOUER", Colors.yellow[800]!, _startNewRound),
+                    Popupmsg.play.message, Colors.yellow[800]!, _startNewRound),
               ],
             ),
     );

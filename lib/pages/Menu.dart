@@ -1,5 +1,6 @@
 import 'package:blackjack/Models/player.dart';
 import 'package:flutter/material.dart';
+import '../Models/PopupMsg.dart';
 import '../Services/JoueurService.dart';
 import 'game.dart';
 
@@ -32,7 +33,7 @@ class _MenuState extends State<Menu> {
        );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Veuillez entrer un nom")),
+        SnackBar(content: Text(Popupmsg.name.message)),
       );
     }
   }
@@ -42,7 +43,7 @@ class _MenuState extends State<Menu> {
     return Scaffold(
       backgroundColor: const Color(0xFF0F522E),
       appBar: AppBar(
-        title: const Text("BlackJack",
+        title:  Text(Popupmsg.bj.message,
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         centerTitle: true,
         backgroundColor: const Color(0xFF0F522E),
@@ -58,8 +59,8 @@ class _MenuState extends State<Menu> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    const Text(
-                      "QUI JOUE ?",
+                     Text(
+                       Popupmsg.turn.message,
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 30,
@@ -73,8 +74,8 @@ class _MenuState extends State<Menu> {
                         controller: _nameController,
                         textAlign: TextAlign.center,
                         style: const TextStyle(color: Colors.white, fontSize: 22),
-                        decoration: const InputDecoration(
-                          hintText: "Entrez votre nom",
+                        decoration:  InputDecoration(
+                          hintText: Popupmsg.name.message,
                           hintStyle: TextStyle(color: Colors.white54),
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.white),
@@ -94,7 +95,7 @@ class _MenuState extends State<Menu> {
                         padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                         textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
-                      child: const Text("Play"),
+                      child: Text(Popupmsg.play.message),
                     ),
                   ],
                 ),
@@ -112,7 +113,7 @@ class _MenuState extends State<Menu> {
             ),
             child: Column(
               children: [
-                const Icon(Icons.monetization_on_outlined, color: Colors.yellow, size: 40),
+                const Icon(Icons.euro, color: Colors.yellow, size: 40),
                 const SizedBox(height: 5),
                 Text(
                   "${_startingCoins.toInt()}",
@@ -122,7 +123,7 @@ class _MenuState extends State<Menu> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const Text("COINS", style: TextStyle(color: Colors.white70, fontSize: 15)),
+                Text(Popupmsg.coins.message, style: TextStyle(color: Colors.white70, fontSize: 15)),
                 Expanded(
                   child: RotatedBox(
                     quarterTurns: 3,
@@ -141,7 +142,7 @@ class _MenuState extends State<Menu> {
                     ),
                   ),
                 ),
-                const Text("MIN: 50", style: TextStyle(color: Colors.white38, fontSize: 15)),
+                Text(Popupmsg.min.message, style: TextStyle(color: Colors.white38, fontSize: 15)),
               ],
             ),
           ),
