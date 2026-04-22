@@ -146,9 +146,8 @@ class _GameState extends State<Game> {
     int score = 0;
     int aces = 0;
     for (var card in hand) {
-      int val = card.value + 1;
-      if (val > 10) val = 10;
-      if (val == 1) {
+      int val = card.value;
+      if (val == 0) {
         aces++;
         val = 11;
       }
@@ -319,8 +318,8 @@ class _GameState extends State<Game> {
                     color: _getSuitColor(card.suit))),
           ),
           Center(
-            child: Icon(_getSuitIcon(card.suit),
-                color: _getSuitColor(card.suit), size: 24),
+            child: Text(_getSuitSymbol(card.suit),
+                style: TextStyle(color: _getSuitColor(card.suit), fontSize: 24)),
           ),
         ],
       ),
@@ -366,12 +365,12 @@ class _GameState extends State<Game> {
     }
   }
 
-  IconData _getSuitIcon(suit_model.Suit suit) {
+  String _getSuitSymbol(suit_model.Suit suit) {
     switch (suit) {
-      case suit_model.Suit.hearts: return Icons.favorite;
-      case suit_model.Suit.diamonds: return Icons.diamond;
-      case suit_model.Suit.clubs: return Icons.cloud;
-      case suit_model.Suit.spades: return Icons.auto_awesome;
+      case suit_model.Suit.hearts: return '♥';
+      case suit_model.Suit.diamonds: return '♦';
+      case suit_model.Suit.clubs: return '♣';
+      case suit_model.Suit.spades: return '♠';
     }
   }
 
