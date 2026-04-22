@@ -1,7 +1,7 @@
 import 'package:blackjack/Models/player.dart';
 import 'package:flutter/material.dart';
 import '../Services/joueur_service.dart';
-import '../Models/PopupMsg.dart';
+import '../Models/pop_up_msg.dart';
 import 'game.dart';
 
 class Menu extends StatefulWidget {
@@ -33,7 +33,7 @@ class _MenuState extends State<Menu> {
        );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(Popupmsg.name.message)),
+        SnackBar(content: Text(PopUpMsg.name.message)),
       );
     }
   }
@@ -43,7 +43,7 @@ class _MenuState extends State<Menu> {
     return Scaffold(
       backgroundColor: const Color(0xFF0F522E),
       appBar: AppBar(
-        title:  Text(Popupmsg.bj.message,
+        title:  Text(PopUpMsg.bj.message,
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         centerTitle: true,
         backgroundColor: const Color(0xFF0F522E),
@@ -60,7 +60,7 @@ class _MenuState extends State<Menu> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                      Text(
-                       Popupmsg.turn.message,
+                       PopUpMsg.turn.message,
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 30,
@@ -75,7 +75,7 @@ class _MenuState extends State<Menu> {
                         textAlign: TextAlign.center,
                         style: const TextStyle(color: Colors.white, fontSize: 22),
                         decoration:  InputDecoration(
-                          hintText: Popupmsg.name.message,
+                          hintText: PopUpMsg.name.message,
                           hintStyle: TextStyle(color: Colors.white54),
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.white),
@@ -95,7 +95,7 @@ class _MenuState extends State<Menu> {
                         padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                         textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
-                      child: Text(Popupmsg.play.message),
+                      child: Text(PopUpMsg.play.message),
                     ),
                   ],
                 ),
@@ -108,7 +108,7 @@ class _MenuState extends State<Menu> {
             width: 100,
             padding: const EdgeInsets.symmetric(vertical: 20),
             decoration: BoxDecoration(
-              color: Colors.black.withValues(),
+              color: Colors.grey.shade800,
               border: const Border(left: BorderSide(color: Colors.white12)),
             ),
             child: Column(
@@ -123,7 +123,7 @@ class _MenuState extends State<Menu> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(Popupmsg.coins.message, style: TextStyle(color: Colors.white70, fontSize: 15)),
+                Text(PopUpMsg.coins.message, style: TextStyle(color: Colors.white70, fontSize: 15)),
                 Expanded(
                   child: RotatedBox(
                     quarterTurns: 3,
@@ -142,7 +142,7 @@ class _MenuState extends State<Menu> {
                     ),
                   ),
                 ),
-                Text(Popupmsg.min.message, style: TextStyle(color: Colors.white38, fontSize: 15)),
+                Text(PopUpMsg.min.message, style: TextStyle(color: Colors.white38, fontSize: 15)),
               ],
             ),
           ),

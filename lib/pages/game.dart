@@ -6,7 +6,7 @@ import 'package:blackjack/Models/suit.dart' as suit_model;
 import 'package:blackjack/Models/rank.dart' as rank_model;
 import 'package:blackjack/Services/joueur_service.dart';
 
-import '../Models/PopupMsg.dart';
+import '../Models/pop_up_msg.dart';
 
 class Game extends StatefulWidget {
   const Game({super.key});
@@ -31,8 +31,8 @@ class _GameState extends State<Game> {
   }
 
   void _initGameData() {
-    player = joueurService.getPlayer() ?? Player(Popupmsg.playeur.message, 100, false);
-    dealer = Player(Popupmsg.dealer.message, 0, true);
+    player = joueurService.getPlayer() ?? Player(PopUpMsg.player.message, 100, false);
+    dealer = Player(PopUpMsg.dealer.message, 0, true);
     deck = Deck52();
     isGameInProgress = false;
     showDealerHiddenCard = false;
@@ -54,7 +54,7 @@ class _GameState extends State<Game> {
   void _startNewRound() {
     if (player.coins < currentBet) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(Popupmsg.necessaryCoins.message)),
+        SnackBar(content: Text(PopUpMsg.necessaryCoins.message)),
       );
       return;
     }
@@ -88,7 +88,7 @@ class _GameState extends State<Game> {
         isGameInProgress = false;
         showDealerHiddenCard = true;
         joueurService.savePlayer(player);
-        _showResultDialog(Popupmsg.loose.message, isWin: false);
+        _showResultDialog(PopUpMsg.loose.message, isWin: false);
       }
     });
   }
@@ -116,25 +116,25 @@ class _GameState extends State<Game> {
     bool dealerBJ = _isBlackjack(dealer);
 
     if (player.score > 21) {
-      message = Popupmsg.loose.message;
+      message = PopUpMsg.loose.message;
     } else if (dealer.score > 21) {
-      message = Popupmsg.dealerLoose.message;
+      message = PopUpMsg.dealerLoose.message;
       player.coins += playerBJ ? (player.bet * 2.5).toInt() : (player.bet * 2);
       isWin = true;
     } else if (playerBJ && !dealerBJ) {
-      message = Popupmsg.blackjack.message;
+      message = PopUpMsg.blackjack.message;
       player.coins += (player.bet * 2.5).toInt();
       isWin = true;
     } else if (dealerBJ && !playerBJ) {
-      message = Popupmsg.dealerWinByBJ.message;
+      message = PopUpMsg.dealerWinByBJ.message;
     } else if (player.score > dealer.score) {
-      message = Popupmsg.win.message;
+      message = PopUpMsg.win.message;
       player.coins += player.bet * 2;
       isWin = true;
     } else if (player.score < dealer.score) {
-      message = "${Popupmsg.looseByScore.message} ${player.score} vs ${dealer.score}";
+      message = "${PopUpMsg.looseByScore.message} ${player.score} vs ${dealer.score}";
     } else {
-      message = Popupmsg.push.message;
+      message = PopUpMsg.push.message;
       player.coins += player.bet;
     }
 
@@ -165,7 +165,7 @@ class _GameState extends State<Game> {
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        title: Text(isWin ? Popupmsg.congratulation.message : Popupmsg.resultat.message),
+        title: Text(isWin ? PopUpMsg.congratulation.message : PopUpMsg.resultat.message),
         content: Text(message),
         actions: [
           TextButton(
@@ -174,7 +174,7 @@ class _GameState extends State<Game> {
               _initGameData();
               setState(() {});
             },
-            child: Text(Popupmsg.good.message),
+            child: Text(PopUpMsg.good.message),
           ),
         ],
       ),
@@ -189,7 +189,7 @@ class _GameState extends State<Game> {
         toolbarHeight: 40,
         backgroundColor: Colors.black26,
         elevation: 0,
-        title: Text("${Popupmsg.banque.message}${player.coins} ${Popupmsg.euro.message}",
+        title: Text("${PopUpMsg.banque.message}${player.coins} ${PopUpMsg.euro.message}",
             style: const TextStyle(color: Colors.yellowAccent, fontSize: 16)),
       ),
       body: SafeArea(
@@ -235,7 +235,7 @@ class _GameState extends State<Game> {
           }),
         ),
         Text(
-            "${Popupmsg.score.message}${showDealerHiddenCard ? dealer.score : (dealer.hand.isNotEmpty ? _calculateScore([dealer.hand[0]]) : 0)}",
+            "${PopUpMsg.score.message}${showDealerHiddenCard ? dealer.score : (dealer.hand.isNotEmpty ? _calculateScore([dealer.hand[0]]) : 0)}",
             style: const TextStyle(color: Colors.white54, fontSize: 12)),
       ],
     );
@@ -256,7 +256,7 @@ class _GameState extends State<Game> {
           alignment: WrapAlignment.center,
           children: p.hand.map((card) => _buildCard(card)).toList(),
         ),
-        Text("${Popupmsg.score.message}${p.score} | ${Popupmsg.mise.message}${p.bet}${Popupmsg.euro.message}",
+        Text("${PopUpMsg.score.message}${p.score} | ${PopUpMsg.mise.message}${p.bet}${PopUpMsg.euro.message}",
             style: const TextStyle(color: Colors.white70, fontSize: 13)),
       ],
     );
@@ -270,13 +270,13 @@ class _GameState extends State<Game> {
           ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _actionButton(Popupmsg.hit.message, Colors.blue, _hit),
-                _actionButton(Popupmsg.stand.message, Colors.orange, _stand),
+                _actionButton(PopUpMsg.hit.message, Colors.blue, _hit),
+                _actionButton(PopUpMsg.stand.message, Colors.orange, _stand),
               ],
             )
           : Row(
               children: [
-                Text(Popupmsg.mise.message, style: TextStyle(color: Colors.white, fontSize: 12)),
+                Text(PopUpMsg.mise.message, style: TextStyle(color: Colors.white, fontSize: 12)),
                 Expanded(
                   child: Slider(
                     value: currentBet.toDouble().clamp(10.0, player.coins >= 10 ? player.coins.toDouble() : 10.0),
@@ -286,11 +286,11 @@ class _GameState extends State<Game> {
                     onChanged: (v) => setState(() => currentBet = v.toInt()),
                   ),
                 ),
-                Text("${currentBet} ${Popupmsg.euro.message}",
+                Text("$currentBet ${PopUpMsg.euro.message}",
                     style: const TextStyle(color: Colors.yellowAccent, fontSize: 14)),
                 const SizedBox(width: 10),
                 _actionButton(
-                    Popupmsg.play.message, Colors.yellow[800]!, _startNewRound),
+                    PopUpMsg.play.message, Colors.yellow[800]!, _startNewRound),
               ],
             ),
     );

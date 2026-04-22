@@ -1,4 +1,4 @@
-enum Popupmsg {
+enum PopUpMsg {
   loose("Oups ! Vous avez dépassé 21."),
   win("Gagné !"),
   dealerLoose("Le croupier a sauté ! Vous gagnez."),
@@ -11,7 +11,7 @@ enum Popupmsg {
   stand("STAND"),
   mise("Mise : "),
   play("JOUER "),
-  playeur("Joueur"),
+  player("Joueur"),
   dealer("Croupier"),
   necessaryCoins("Pas assez de jetons !"),
   good("OK"),
@@ -29,5 +29,5 @@ enum Popupmsg {
 
   final String message;
 
-  const Popupmsg(this.message);
+  const PopUpMsg(this.message);
 }
