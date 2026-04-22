@@ -144,9 +144,8 @@ class _GameState extends State<Game> {
     int score = 0;
     int aces = 0;
     for (var card in hand) {
-      int val = card.value + 1;
-      if (val > 10) val = 10;
-      if (val == 1) {
+      int val = card.value;
+      if (val == 0) {
         aces++;
         val = 11;
       }
