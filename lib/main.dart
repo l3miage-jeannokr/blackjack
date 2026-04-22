@@ -1,5 +1,5 @@
-import 'package:blackjack/pages/Menu.dart';
-import 'package:blackjack/Services/JoueurService.dart';
+import 'package:blackjack/pages/menu.dart';
+import 'package:blackjack/Services/joueur_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

@@ -1,6 +1,6 @@
 import 'package:blackjack/Models/player.dart';
 import 'package:flutter/material.dart';
-import '../Services/JoueurService.dart';
+import '../Services/joueur_service.dart';
 import 'game.dart';
 
 class Menu extends StatefulWidget {
@@ -107,7 +107,7 @@ class _MenuState extends State<Menu> {
             width: 100,
             padding: const EdgeInsets.symmetric(vertical: 20),
             decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.2),
+              color: Colors.black.withValues(),
               border: const Border(left: BorderSide(color: Colors.white12)),
             ),
             child: Column(

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart' hide Card;
 import 'package:blackjack/Models/player.dart';
 import 'package:blackjack/Models/suit.dart' as suit_model;
 import 'package:blackjack/Models/rank.dart' as rank_model;
-import 'package:blackjack/Services/JoueurService.dart';
+import 'package:blackjack/Services/joueur_service.dart';
 
 class Game extends StatefulWidget {
   const Game({super.key});
@@ -284,7 +284,7 @@ class _GameState extends State<Game> {
                     onChanged: (v) => setState(() => currentBet = v.toInt()),
                   ),
                 ),
-                Text("${currentBet}€",
+                Text("$currentBet€",
                     style: const TextStyle(color: Colors.yellowAccent, fontSize: 14)),
                 const SizedBox(width: 10),
                 _actionButton(
