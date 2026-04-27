@@ -107,6 +107,7 @@ class _MenuState extends State<Menu> {
           Align(
             alignment: Alignment.centerRight,
               child: Container(
+                width: 80,
               padding: const EdgeInsets.symmetric(vertical: 20),
               decoration: BoxDecoration(
                 color: Colors.black.withValues(),
@@ -125,9 +126,10 @@ class _MenuState extends State<Menu> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text(PopUpMsg.coins.message, style: TextStyle(color: Colors.white70, fontSize: 15)),
+                  Text(PopUpMsg.coins.message, style: const TextStyle(color: Colors.white70, fontSize: 15)),
                   const SizedBox(height: 20),
                   SizedBox(
+                    height: 100,
                     child: RotatedBox(
                       quarterTurns: 3,
                       child: Slider(
@@ -146,7 +148,7 @@ class _MenuState extends State<Menu> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Text(PopUpMsg.min.message, style: TextStyle(color: Colors.white38, fontSize: 15)),
+                  Text(PopUpMsg.min.message, style: const TextStyle(color: Colors.white38, fontSize: 15)),
                 ],
               ),
             ),
