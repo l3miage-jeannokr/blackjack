@@ -1,3 +1,5 @@
+import 'dart:ffi' hide Size;
+
 import 'package:blackjack/Models/deck52.dart';
 import 'package:blackjack/Models/card.dart';
 import 'package:flutter/material.dart' hide Card;
@@ -116,19 +118,19 @@ class _GameState extends State<Game> {
     bool dealerBJ = _isBlackjack(dealer);
 
     if (player.score > 21) {
-      message = Popupmsg.loose.message;
+      message = "${Popupmsg.loose.message} : ${player.bet} ${Popupmsg.euro.message}";
     } else if (dealer.score > 21) {
-      message = Popupmsg.dealerLoose.message;
-      player.coins += playerBJ ? (player.bet * 2.5).toInt() : (player.bet * 2);
+      int gain = player.coins += playerBJ ? (player.bet * 2.5).toInt() : (player.bet * 2);
+      message = "${Popupmsg.dealerLoose.message} : $gain ${Popupmsg.euro.message}";
       isWin = true;
     } else if (playerBJ && !dealerBJ) {
-      message = Popupmsg.blackjack.message;
-      player.coins += (player.bet * 2.5).toInt();
+      int gain = player.coins += (player.bet * 2.5).toInt();
+      message = "${Popupmsg.blackjack.message} $gain ${Popupmsg.euro.message}";
       isWin = true;
     } else if (dealerBJ && !playerBJ) {
       message = Popupmsg.dealerWinByBJ.message;
     } else if (player.score > dealer.score) {
-      message = Popupmsg.win.message;
+      message = "${Popupmsg.win.message } : ${player.bet} ${Popupmsg.euro.message}";
       player.coins += player.bet * 2;
       isWin = true;
     } else if (player.score < dealer.score) {
