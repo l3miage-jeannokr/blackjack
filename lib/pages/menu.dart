@@ -108,8 +108,8 @@ class _MenuState extends State<Menu> {
             alignment: Alignment.centerRight,
               child: Container(
                 width: 80,
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              decoration: BoxDecoration(
+                margin: EdgeInsets.only(left: 40.0, right: MediaQuery.of(context).viewPadding.right),
+                decoration: BoxDecoration(
                 color: Colors.black.withValues(),
                 border: const Border(left: BorderSide(color: Colors.white12)),
               ),
