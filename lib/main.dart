@@ -1,16 +1,13 @@
-import 'package:blackjack/pages/Menu.dart';
-import 'package:blackjack/Services/JoueurService.dart';
+import 'package:blackjack/pages/menu.dart';
+import 'package:blackjack/Services/joueur_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
-  // Nécessaire pour initialiser les plugins comme local_storage avant runApp
   WidgetsFlutterBinding.ensureInitialized();
   
-  // Initialisation du JoueurService (qui initialise local_storage)
   await JoueurService().init();
 
-  // Forcer l'orientation paysage
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,

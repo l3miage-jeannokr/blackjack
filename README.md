@@ -21,7 +21,11 @@ samples, guidance on mobile development, and a full API reference.
 - distribué une main (2 carte du deck) 
 - ajout des assets des cartes et du plateau de jeu et animation 
 
-On validera ça quand tout est réaliser
+2ème ité :
+
+- Harmoniser les popups
+- Vérifier les incohérences des messages des popups notamment : argent gangé/perdu
+- Tester les différentes pages (symboliquement)
 
 ## References
 
