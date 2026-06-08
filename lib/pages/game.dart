@@ -1,12 +1,12 @@
-import 'package:blackjack/Models/deck52.dart';
-import 'package:blackjack/Models/card.dart';
+import 'package:blackjack/models/deck52.dart';
+import 'package:blackjack/models/card.dart';
 import 'package:flutter/material.dart' hide Card;
-import 'package:blackjack/Models/player.dart';
-import 'package:blackjack/Models/suit.dart' as suit_model;
-import 'package:blackjack/Models/rank.dart' as rank_model;
-import 'package:blackjack/Services/joueur_service.dart';
+import 'package:blackjack/models/player.dart';
+import 'package:blackjack/models/suit.dart' as suit_model;
+import 'package:blackjack/models/rank.dart' as rank_model;
+import 'package:blackjack/services/joueur_service.dart';
 
-import '../Models/pop_up_msg.dart';
+import '../models/pop_up_msg.dart';
 
 class Game extends StatefulWidget {
   const Game({super.key});
@@ -31,8 +31,8 @@ class _GameState extends State<Game> {
   }
 
   void _initGameData() {
-    player = joueurService.getPlayer() ?? Player(PopUpMsg.player.message, 100, false);
-    dealer = Player(PopUpMsg.dealer.message, 0, true);
+    player = joueurService.getPlayer() ?? Player(PopUpMsg.player.message, 100, false, '123');
+    dealer = Player(PopUpMsg.dealer.message, 0, true, '');
     deck = Deck52();
     isGameInProgress = false;
     showDealerHiddenCard = false;
