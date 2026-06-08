@@ -14,23 +14,42 @@ class Menu extends StatefulWidget {
 class _MenuState extends State<Menu> {
   final JoueurService joueurService = JoueurService();
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   
   double _startingCoins = 100.0;
 
   @override
   void initState() {
     super.initState();
-    _nameController.text = joueurService.getPlayer()?.name ?? "";
+    _nameController.text = joueurService.getPlayer()?.name ?? "Pseudo";
+    _passwordController.text = "Mot de Passe";
+  }
+
+  void _creerCompte() {
+    if (_nameController.text.isNotEmpty && _passwordController.text.isNotEmpty ) {
+      joueurService.savePlayer(Player(_nameController.text, _startingCoins.toInt(), false, _passwordController.text));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Compte créé avec succès !")),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(PopUpMsg.name.message)),
+      );
+    }
   }
 
   void _sauvegarderEtJouer() {
-    if (_nameController.text.isNotEmpty) {
-      joueurService.savePlayer(Player(_nameController.text, _startingCoins.toInt(), false, '123'));
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const Game()),
-       );
+    if (_nameController.text.isNotEmpty && _passwordController.text.isNotEmpty ) {
+      if(joueurService.authentification(_nameController.text, _passwordController.text)){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const Game()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(PopUpMsg.passwordInvalid.message)),
+        );
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(PopUpMsg.name.message)),
@@ -67,7 +86,7 @@ class _MenuState extends State<Menu> {
                           fontWeight: FontWeight.bold,
                           letterSpacing: 2),
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 10),
                     SizedBox(
                       width: 300,
                       child: TextField(
@@ -86,16 +105,51 @@ class _MenuState extends State<Menu> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 40),
-                    ElevatedButton(
-                      onPressed: _sauvegarderEtJouer,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.yellow[700],
-                        foregroundColor: Colors.black,
-                        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                        textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      width: 300,
+                      child: TextField(
+                        controller: _passwordController,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: Colors.white, fontSize: 22),
+                        decoration:  InputDecoration(
+                          hintText: PopUpMsg.name.message,
+                          hintStyle: TextStyle(color: Colors.white54),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.yellow, width: 2),
+                          ),
+                        ),
                       ),
-                      child: Text(PopUpMsg.play.message),
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: _creerCompte,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.yellow[700],
+                            foregroundColor: Colors.black,
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                            textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          child: const Text("Créer Compte"),
+                        ),
+                        const SizedBox(width: 10),
+                        ElevatedButton(
+                          onPressed: _sauvegarderEtJouer,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.yellow[700],
+                            foregroundColor: Colors.black,
+                            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                            textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          child: Text(PopUpMsg.play.message),
+                        ),
+                      ],
                     ),
                   ],
                 ),
