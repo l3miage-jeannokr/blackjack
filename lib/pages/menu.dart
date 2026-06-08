@@ -1,7 +1,7 @@
-import 'package:blackjack/Models/player.dart';
+import 'package:blackjack/models/player.dart';
 import 'package:flutter/material.dart';
-import '../Services/joueur_service.dart';
-import '../Models/pop_up_msg.dart';
+import '../services/joueur_service.dart';
+import '../models/pop_up_msg.dart';
 import 'game.dart';
 
 class Menu extends StatefulWidget {
@@ -25,7 +25,7 @@ class _MenuState extends State<Menu> {
 
   void _sauvegarderEtJouer() {
     if (_nameController.text.isNotEmpty) {
-      joueurService.savePlayer(Player(_nameController.text, _startingCoins.toInt(), false));
+      joueurService.savePlayer(Player(_nameController.text, _startingCoins.toInt(), false, '123'));
 
       Navigator.push(
         context,

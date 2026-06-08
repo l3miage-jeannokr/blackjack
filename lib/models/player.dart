@@ -1,4 +1,4 @@
-import 'package:blackjack/Models/card.dart';
+import 'package:blackjack/models/card.dart';
 
 class Player {
   String name = '';
@@ -7,8 +7,9 @@ class Player {
   int score = 0;
   int coins = 0;
   bool isDealer;
+  String password = '';
 
-  Player(this.name, this.coins, this.isDealer);
+  Player(this.name, this.coins, this.isDealer, this.password);
 
   Map<String, dynamic> toJson() {
     return {
@@ -16,6 +17,7 @@ class Player {
       'score': score,
       'coins': coins,
       'isDealer': isDealer,
+      'password': password,
     };
   }
 
@@ -23,5 +25,6 @@ class Player {
       : name = json['name'] ?? '',
         score = json['score'] ?? 0,
         coins = json['coins'] ?? 0,
-        isDealer = json['isDealer'] ?? false;
+        isDealer = json['isDealer'] ?? false,
+        password = json['password'] ?? '';
 }

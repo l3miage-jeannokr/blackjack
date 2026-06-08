@@ -3,7 +3,7 @@ enum PopUpMsg {
   win("Félicitations ! Vous avez gagné :"),
   dealerLoose("Le croupier a sauté ! Vous avez gagné :"),
   dealerWinByBJ("Le croupier a un Blackjack. Vous avez perdu : "),
-  push("Égalité ! Vous recupérer votre mise"),
+  push("Égalité ! Chacun récupère sa mise"),
   blackjack("BLACKJACK ! Vous avez gagné : "),
   congratulation("Félicitations !"),
   resultat("Résultat"),
