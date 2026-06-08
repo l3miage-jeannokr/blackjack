@@ -22,7 +22,7 @@ class _MenuState extends State<Menu> {
   void initState() {
     super.initState();
     _nameController.text = joueurService.getPlayer()?.name ?? "Pseudo";
-    _passwordController.text = "Mot de Passe";
+    _passwordController.text = "";
   }
 
   void _creerCompte() {
@@ -113,7 +113,7 @@ class _MenuState extends State<Menu> {
                       textAlign: TextAlign.center,
                       style: const TextStyle(color: Colors.white, fontSize: 22),
                       decoration:  InputDecoration(
-                        hintText: PopUpMsg.name.message,
+                        hintText: PopUpMsg.password.message,
                         hintStyle: const TextStyle(color: Colors.white54),
                         enabledBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.white),
@@ -151,7 +151,6 @@ class _MenuState extends State<Menu> {
                       ),
                     ],
                   ),
-                  // Ajout d'un espace pour compenser le clavier si nécessaire
                   SizedBox(height: MediaQuery.of(context).viewInsets.bottom / 2),
                 ],
               ),
