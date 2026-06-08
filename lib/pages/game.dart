@@ -54,7 +54,19 @@ class _GameState extends State<Game> {
   void _startNewRound() {
     if (player.coins < currentBet) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(PopUpMsg.necessaryCoins.message)),
+        SnackBar(
+            content:
+            Row (
+              children:[
+                Text(PopUpMsg.necessaryCoins.message),
+              ],
+            ),
+          backgroundColor: Colors.white24,
+          closeIconColor: Colors.yellowAccent,
+          duration: const Duration(seconds: 2),
+          showCloseIcon: true,
+          padding: EdgeInsets.zero,
+        ),
       );
       return;
     }
@@ -88,7 +100,7 @@ class _GameState extends State<Game> {
         isGameInProgress = false;
         showDealerHiddenCard = true;
         joueurService.savePlayer(player);
-        _showResultDialog(PopUpMsg.loose.message, isWin: false);
+        _showResultDialog("${PopUpMsg.loose.message} ${player.bet} ${PopUpMsg.euro.message}", isWin: false);
       }
     });
   }
@@ -116,19 +128,21 @@ class _GameState extends State<Game> {
     bool dealerBJ = _isBlackjack(dealer);
 
     if (player.score > 21) {
-      message = "${PopUpMsg.loose.message} : ${player.bet} ${PopUpMsg.euro.message}";
+      message = "${PopUpMsg.loose.message} ${player.bet} ${PopUpMsg.euro.message}";
     } else if (dealer.score > 21) {
-      int gain = player.coins += playerBJ ? (player.bet * 2.5).toInt() : (player.bet * 2);
-      message = "${PopUpMsg.dealerLoose.message} : $gain ${PopUpMsg.euro.message}";
+      int gain = playerBJ ? (player.bet * 2.5).toInt() : (player.bet * 2);
+      player.coins += gain;
+      message = "${PopUpMsg.dealerLoose.message}  $gain ${PopUpMsg.euro.message}";
       isWin = true;
     } else if (playerBJ && !dealerBJ) {
-      int gain = player.coins += (player.bet * 2.5).toInt();
+      int gain = (player.bet * 2.5).toInt();
+      player.coins += gain;
       message = "${PopUpMsg.blackjack.message} $gain ${PopUpMsg.euro.message}";
       isWin = true;
     } else if (dealerBJ && !playerBJ) {
       message = PopUpMsg.dealerWinByBJ.message;
     } else if (player.score > dealer.score) {
-      message = "${PopUpMsg.win.message } : ${player.bet} ${PopUpMsg.euro.message}";
+      message = "${PopUpMsg.win.message } ${player.bet} ${PopUpMsg.euro.message}";
       player.coins += player.bet * 2;
       isWin = true;
     } else if (player.score < dealer.score) {
@@ -165,16 +179,34 @@ class _GameState extends State<Game> {
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        title: Text(isWin ? PopUpMsg.congratulation.message : PopUpMsg.resultat.message),
-        content: Text(message),
+        backgroundColor: Colors.black.withValues(alpha: 0.4),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        title: Text(
+          isWin ? PopUpMsg.congratulation.message : PopUpMsg.resultat.message,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: isWin ? Colors.greenAccent : Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: Colors.white, fontSize: 18),
+        ),
         actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _initGameData();
-              setState(() {});
-            },
-            child: Text(PopUpMsg.good.message),
+          Center(
+            child: TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                _initGameData();
+                setState(() {});
+              },
+              child: Text(
+                PopUpMsg.good.message,
+                style: const TextStyle(color: Colors.yellowAccent, fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
           ),
         ],
       ),

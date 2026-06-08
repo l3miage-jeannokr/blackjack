@@ -1,10 +1,10 @@
 enum PopUpMsg {
-  loose("Oups ! Vous avez dépassé 21. Vous avez perdu : "),
-  win("Félicitations ! Vous avez gagné :"),
-  dealerLoose("Le croupier a sauté ! Vous avez gagné :"),
-  dealerWinByBJ("Le croupier a un Blackjack. Vous avez perdu : "),
-  push("Égalité ! Vous recupérer votre mise"),
-  blackjack("BLACKJACK ! Vous avez gagné : "),
+  loose("Oups ! Vous avez dépassé 21. \n Vous avez perdu : "),
+  win("Félicitations !  \n Vous avez gagné :"),
+  dealerLoose("Le croupier a sauté !  \n Vous avez gagné :"),
+  dealerWinByBJ("Le croupier a un Blackjack.  \n Vous avez perdu : "),
+  push("Égalité !  \n Vous recupérer votre mise"),
+  blackjack("BLACKJACK !  \n Vous avez gagné : "),
   congratulation("Félicitations !"),
   resultat("Résultat"),
   hit("HIT"),
@@ -23,6 +23,7 @@ enum PopUpMsg {
   bj("BLACKJACK"),
   turn("QUI JOUE ?"),
   coins("Jetons"),
+  cancel("Annuler"),
   min("MIN : 50");
 
 
