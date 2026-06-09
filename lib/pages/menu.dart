@@ -29,11 +29,25 @@ class _MenuState extends State<Menu> {
     if (_nameController.text.isNotEmpty && _passwordController.text.isNotEmpty ) {
       joueurService.savePlayer(Player(_nameController.text, _startingCoins.toInt(), false, _passwordController.text));
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Compte créé avec succès !")),
+        SnackBar(
+            content: Text("Compte créé avec succès !"),
+            backgroundColor: Colors.white24,
+            closeIconColor: Colors.yellowAccent,
+            duration: const Duration(seconds: 2),
+            showCloseIcon: true,
+            padding: EdgeInsets.zero,
+        ),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(PopUpMsg.name.message)),
+        SnackBar(
+            content: Text(PopUpMsg.name.message),
+            backgroundColor: Colors.white24,
+            closeIconColor: Colors.yellowAccent,
+            duration: const Duration(seconds: 2),
+            showCloseIcon: true,
+            padding: EdgeInsets.zero,
+        ),
       );
     }
   }
@@ -47,12 +61,26 @@ class _MenuState extends State<Menu> {
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(PopUpMsg.passwordInvalid.message)),
+            SnackBar(
+                content: Text(PopUpMsg.passwordInvalid.message),
+                backgroundColor: Colors.white24,
+                closeIconColor: Colors.yellowAccent,
+                duration: const Duration(seconds: 2),
+                showCloseIcon: true,
+                padding: EdgeInsets.zero,
+            ),
         );
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(PopUpMsg.name.message)),
+        SnackBar(
+            content: Text(PopUpMsg.name.message),
+            backgroundColor: Colors.white24,
+            closeIconColor: Colors.yellowAccent,
+            duration: const Duration(seconds: 2),
+            showCloseIcon: true,
+            padding: EdgeInsets.zero,
+        ),
       );
     }
   }

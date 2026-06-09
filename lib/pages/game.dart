@@ -55,12 +55,7 @@ class _GameState extends State<Game> {
     if (player.coins < currentBet) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content:
-            Row (
-              children:[
-                Text(PopUpMsg.necessaryCoins.message),
-              ],
-            ),
+          content: Text(PopUpMsg.necessaryCoins.message),
           backgroundColor: Colors.white24,
           closeIconColor: Colors.yellowAccent,
           duration: const Duration(seconds: 2),
@@ -218,7 +213,14 @@ class _GameState extends State<Game> {
     return Scaffold(
       backgroundColor: const Color(0xFF0F522E),
       appBar: AppBar(
-        toolbarHeight: 40,
+        toolbarHeight: 20,
+        leadingWidth: 40,
+        leading: IconButton(
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
+          icon: const Icon(Icons.arrow_back , size: 18, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
+      ),
         backgroundColor: Colors.black26,
         elevation: 0,
         title: Text("${PopUpMsg.banque.message}${player.coins} ${PopUpMsg.euro.message}",
@@ -296,8 +298,8 @@ class _GameState extends State<Game> {
 
   Widget _buildActionPanel() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      color: Colors.black45,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0.1),
+      color: Colors.transparent,
       child: isGameInProgress
           ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
