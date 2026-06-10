@@ -16,12 +16,6 @@ Une application de Blackjack moderne réalisée avec **Flutter**. Ce projet perm
     - **STAND** : S'arrêter et laisser le croupier jouer.
 - **Logique de Dealer** : Le croupier joue automatiquement selon les règles classiques (s'arrête à 17).
 - **Gestion des Gains/Pertes** : Calcul automatique des scores et mise à jour de la banque en temps réel.
-
-### 3. Interface Utilisateur (UI)
-- **Design Immersif** : Fond vert "tapis de jeu" avec assets de cartes personnalisés.
-- **Panneau d'actions transparent** : Pour une meilleure visibilité du plateau.
-- **Optimisation Mobile** : Interface adaptative gérant l'ouverture du clavier et évitant les débordements (overflow).
-
 ---
 
 ## Architecture du Projet
